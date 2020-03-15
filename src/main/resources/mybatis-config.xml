@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--别名，自动扫描包内的类型，使后续配置文件中使用resultType时不必写全包名-->
+    <typeAliases>
+        <package name="pojo"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--提供数据库连接使用需要的 驱动、数据库名称、编码方式、账号密码-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/how2java?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345677"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--映射category.xml-->
+    <mappers>
+        <mapper resource="Category.xml"/>
+    </mappers>
+</configuration>
