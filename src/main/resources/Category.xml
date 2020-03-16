@@ -3,8 +3,59 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--mapper 跟标签-->
+<!--namespace 命名空间，保证命名空间唯一，可保证不同映射文件中sql语句id相同时不发生冲突-->
 <mapper namespace="pojo">
+    <!--    id 唯一标识，同意命名空间下保持唯一-->
+    <!--    parameterType 传入参数类型-->
+    <!--    resultType 查询结果集的封装类型-->
+    <insert id="addCategory" parameterType="Category">
+        insert into category_ (name) values (#{name})
+    </insert>
+
+    <delete id="deleteCategory" parameterType="int">
+        delete from category_ where id=#{id}
+    </delete>
+
+    <select id="getCategory" parameterType="int" resultType="Category">
+        select * from category_ where id = #{id}
+    </select>
+
+    <update id="updateCategory" parameterType="Category">
+        update category_ set name=#{name} where id=#{id}
+    </update>
+
     <select id="listCategory" resultType="Category">
         select * from category_
     </select>
+
+<!--    concat拼接字符出-->
+    <select id="listCategoryByName" parameterType="string" resultType="Category">
+        select * from category_ where name like concat('%',#{name},'%')
+    </select>
+
+    <select id="listCategoryByIdAndName" parameterType="map" resultType="Category">
+        select * from category_ where id > #{id} and name like concat('%',#{name},'%')
+    </select>
+
+    <resultMap id="categoryBean" type="Category">
+<!--        id表示主键，result表示其他属性-->
+        <id column="c_id" property="id"/>
+        <result column="c_name" property="name"/>
+
+<!--        将product_表中的数据存放于collection中，元素类型为Product-->
+<!--        property表示存放于Category中的属性products中-->
+        <collection property="products" ofType="Product">
+            <id column="p_id" property="id"/>
+            <result column="p_name" property="name"/>
+            <result column="price" property="price"/>
+        </collection>
+    </resultMap>
+
+    <select id="listCategoryDetails" resultMap="categoryBean">
+        select c.id 'c_id',p.id 'p_id',c.name 'c_name',p.name 'p_name',price
+        from category_ c left join product_ p
+        on c.id = p.category_id;
+    </select>
+
 </mapper>
