@@ -1,5 +1,7 @@
 package test;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import mapper.CategoryMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -61,8 +63,17 @@ public class TestMybatis {
         //通过sqlSession的selectList方法，调用语句listCategory(Category.xml中设置的语句的id)
 //      categories = sqlSession.selectList("listCategory");
 
+
+        //查询之前执行分页语句
+        PageHelper.offsetPage(0, 2);
+
         //Mapper方式的查询
         categories = categoryMapper.list();
+
+        //通过PageInfo获取分页信息
+        PageInfo pageInfo = new PageInfo(categories);
+        System.out.println(pageInfo.getTotal());
+        System.out.println(pageInfo);
 
         //模糊查询ByName
 //      categories = sqlSession.selectList("listCategoryByName", "修改");
@@ -96,6 +107,10 @@ public class TestMybatis {
         //打印查询结果
         for (Category c : categories) {
             System.out.println(c);
+            List<Product> products = c.getProducts();
+            for (Product p : products) {
+                System.out.println("\t" + p);
+            }
         }
 
         sqlSession.commit();

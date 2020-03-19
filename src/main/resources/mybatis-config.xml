@@ -8,6 +8,11 @@
     <typeAliases>
         <package name="pojo"/>
     </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+
+        </plugin>
+    </plugins>
     <environments default="development">
         <environment id="development">
 <!--            事务管理器，JDBC类型的事务管理器-->
@@ -17,7 +22,9 @@
 <!--                提供数据库连接使用需要的 驱动、数据库名称、编码方式、账号密码-->
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url"
-                          value="jdbc:mysql://localhost:3306/how2java?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8"/>
+                          value="jdbc:mysql://localhost:3306/how2java
+                          ?useUnicode=true&amp;characterEncoding=UTF-8&amp;
+                          serverTimezone=GMT%2B8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="12345677"/>
             </dataSource>
@@ -28,5 +35,6 @@
         <mapper resource="Category.xml"/>
         <mapper resource="Product.xml"/>
         <mapper class="mapper.CategoryMapper"/>
+        <mapper class="mapper.ProductMapper"/>
     </mappers>
 </configuration>
